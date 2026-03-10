@@ -3,8 +3,8 @@ metadata.clawdbot:
   name: aura-openclaw
   description: Compile documents into knowledge bases and manage persistent AI agent memory with Aura Core
   version: 0.1.3
-  author: Auralith Inc.
-  homepage: https://github.com/Auralith-Inc/aura-openclaw
+  author: Rta Labs
+  homepage: https://github.com/Rtalabs-ai/aura-openclaw
 requires:
   env: []
 files: ["scripts/*"]
@@ -192,10 +192,10 @@ This skill is autonomously invoked by the agent as part of its normal operation.
 
 ## Trust Statement
 
-By using this skill, **no data is sent to any external service**. All processing happens on your local machine. Only install this skill if you trust [Auralith Inc.](https://auralith.org). Source code for the compiler and RAG components is available on [GitHub](https://github.com/Auralith-Inc/aura-core).
+By using this skill, **no data is sent to any external service**. All processing happens on your local machine. Only install this skill if you trust [Rta Labs](https://rtalabs.org). Source code for the compiler and RAG components is available on [GitHub](https://github.com/Rtalabs-ai/aura-core).
 
 ## Notes
 
 - Memory OS provides instant writes and background compilation to durable shards.
 - Compiler and RAG components are open source (Apache 2.0). Memory OS is proprietary, free to use.
-- For emphasis weighting and training features, see [OMNI Platform](https://omni.auralith.org).
+- For emphasis weighting and training features, see [OMNI Platform](https://omni.rtalabs.org).
