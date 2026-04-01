@@ -23,7 +23,16 @@ Usage:
 
 import sys
 import argparse
-from aura.memory import AuraMemoryOS
+
+
+def _get_memory():
+    """Lazy-load AuraMemoryOS with a helpful error if not installed."""
+    try:
+        from aura.memory import AuraMemoryOS
+    except ImportError:
+        print("❌ aura-core not installed. Run: pip install auralith-aura")
+        sys.exit(1)
+    return AuraMemoryOS()
 
 
 def main():
@@ -86,7 +95,7 @@ Examples:
         parser.print_help()
         sys.exit(1)
     
-    memory = AuraMemoryOS()
+    memory = _get_memory()
     
     if args.action == 'write':
         entry = memory.write(

@@ -2,7 +2,7 @@
 metadata.clawdbot:
   name: aura-openclaw
   description: Compile documents into knowledge bases and manage persistent AI agent memory with Aura Core
-  version: 0.1.3
+  version: 0.1.4
   author: Rta Labs
   homepage: https://github.com/Rtalabs-ai/aura-openclaw
 requires:
@@ -14,7 +14,7 @@ files: ["scripts/*"]
 
 Persistent memory and instant knowledge retrieval for your OpenClaw agent. Compile 60+ file formats into queryable `.aura` archives and give your agent a 3-tier memory that survives sessions, compaction, and restarts.
 
-> **Memory OS v2.1** (`auralith-aura>=0.2.2`): Enhanced with temporal decay scoring, noise filtering, deduplication, bloom filters, SimHash fuzzy matching, and tiered priority scoring — zero RAM overhead.
+> **Memory OS v2.1** (`auralith-aura>=0.2.3`): Enhanced with temporal decay scoring, noise filtering, deduplication, bloom filters, SimHash fuzzy matching, and tiered priority scoring — zero RAM overhead.
 
 ## Setup
 
@@ -24,7 +24,7 @@ pip install auralith-aura
 
 For full document support (PDFs, DOCX, etc.):
 ```bash
-pip install 'aura-core[all]'
+pip install 'auralith-aura[all]'
 ```
 
 ## What It Looks Like

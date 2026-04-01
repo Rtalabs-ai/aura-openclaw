@@ -26,38 +26,36 @@ def query_aura_file(aura_file, query):
         print("❌ aura-core not installed. Run: pip install auralith-aura")
         sys.exit(1)
 
-    loader = AuraRAGLoader(aura_file)
+    with AuraRAGLoader(aura_file) as loader:
+        print(f"🔍 Searching '{aura_file}' for: {query}")
+        print(f"📦 Archive contains {len(loader)} documents")
+        print("-" * 60)
 
-    print(f"🔍 Searching '{aura_file}' for: {query}")
-    print(f"📦 Archive contains {len(loader)} documents")
-    print("-" * 60)
+        query_lower = query.lower()
+        query_words = query_lower.split()
+        results = []
 
-    query_lower = query.lower()
-    results = []
+        for doc_id, text, meta in loader.iterate_texts():
+            if not text:
+                continue
+            text_lower = text.lower()
+            score = sum(1 for word in query_words if word in text_lower)
+            if score > 0:
+                results.append((score, doc_id, text, meta))
 
-    for doc_id, text, meta in loader.iterate_texts():
-        if not text:
-            continue
-        text_lower = text.lower()
-        score = sum(1 for word in query_lower.split() if word in text_lower)
-        if score > 0:
-            results.append((score, doc_id, text, meta))
+        results.sort(key=lambda x: x[0], reverse=True)
 
-    results.sort(key=lambda x: x[0], reverse=True)
+        if not results:
+            print("No matching documents found.")
+            return
 
-    if not results:
-        print("No matching documents found.")
-        loader.close()
-        return
+        for i, (score, doc_id, text, meta) in enumerate(results[:5], 1):
+            source = meta.get("source", doc_id)
+            preview = text[:300].replace("\n", " ").strip()
+            print(f"\n📄 [{i}] {source} (relevance: {score})")
+            print(f"   {preview}...")
 
-    for i, (score, doc_id, text, meta) in enumerate(results[:5], 1):
-        source = meta.get("source", doc_id)
-        preview = text[:300].replace("\n", " ").strip()
-        print(f"\n📄 [{i}] {source} (relevance: {score})")
-        print(f"   {preview}...")
-
-    print(f"\n✅ Found {len(results)} matching documents (showing top 5)")
-    loader.close()
+        print(f"\n✅ Found {len(results)} matching documents (showing top 5)")
 
 
 def query_memory(query, namespace=None, top_k=5):

@@ -11,7 +11,7 @@ Security Manifest:
     Local Files Written: User-specified .aura output file
 
 Usage:
-    python compile.py <input_dir> <output_file> [--pii-mask] [--min-quality 0.3]
+    python compile.py <input_dir> <output_file> [--pii-mask] [--min-quality 0.3] [--domain financial]
 """
 
 import sys
@@ -21,8 +21,9 @@ def main():
     if len(sys.argv) < 3:
         print("Usage: python compile.py <input_dir> <output.aura>")
         print("  Options:")
-        print("    --pii-mask         Mask PII before compilation")
-        print("    --min-quality 0.3  Filter low-quality content")
+        print("    --pii-mask              Mask PII before compilation")
+        print("    --min-quality 0.3       Filter low-quality content")
+        print("    --domain <type>         Domain hint (financial, technical, etc.)")
         sys.exit(1)
 
     input_dir = sys.argv[1]
@@ -30,7 +31,8 @@ def main():
 
     # Parse optional flags
     pii_mask = "--pii-mask" in sys.argv
-    min_quality = None
+
+    min_quality = 0.0
     if "--min-quality" in sys.argv:
         idx = sys.argv.index("--min-quality")
         if idx + 1 < len(sys.argv):
@@ -40,19 +42,32 @@ def main():
                 print("❌ --min-quality must be a number (e.g., 0.3)")
                 sys.exit(1)
 
+    domain = ""
+    if "--domain" in sys.argv:
+        idx = sys.argv.index("--domain")
+        if idx + 1 < len(sys.argv):
+            domain = sys.argv[idx + 1]
+
     print(f"🔥 Compiling: {input_dir} → {output_file}")
 
     try:
         from aura.compiler import compile_directory
 
-        kwargs = {}
-        if pii_mask:
-            kwargs["pii_mask"] = True
-        if min_quality is not None:
-            kwargs["min_quality"] = min_quality
+        stats = compile_directory(
+            input_dir=input_dir,
+            output_path=output_file,
+            enable_pii_masking=pii_mask,
+            min_quality_score=min_quality,
+            domain=domain,
+        )
 
-        compile_directory(input_dir, output_file, **kwargs)
         print(f"✅ Compiled successfully → {output_file}")
+        print(f"   Processed: {stats.processed_files}/{stats.total_files} files")
+        print(f"   Words: {stats.total_tokens:,}")
+        if stats.failed_files:
+            print(f"   Failed: {stats.failed_files}")
+        if stats.pii_masked:
+            print(f"   PII masked: {stats.pii_masked} occurrences")
 
     except ImportError:
         print("❌ aura-core not found. Install with: pip install auralith-aura")
