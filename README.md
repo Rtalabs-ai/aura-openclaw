@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Rtalabs-ai/aura-core/main/logo.png" alt="Aura" width="100">
+  <img src="https://github.com/Rtalabs-ai/aura-core/raw/main/logo.png" alt="Rta Labs Logo" width="100">
 </p>
 
 # 🔥 Aura for OpenClaw
@@ -155,6 +155,20 @@ memory.prune_shards(shard_ids=["specific_id"])   # Delete specific shards
 - **Cross-platform** — macOS, Windows, Linux, Python 3.8+
 
 Your documents and memory never leave your machine.
+
+---
+
+## Research Knowledge Base (Optional)
+
+For research-focused workflows, install [Aura Research](https://github.com/Rtalabs-ai/aura-research) to build structured wikis from raw documents:
+
+```bash
+pip install aura-research
+research init my-project && research ingest raw/
+research build && research memory show
+```
+
+No API key needed — as the agent, you ARE the LLM. Read docs, write wiki articles, run CLI commands directly.
 
 ---
 

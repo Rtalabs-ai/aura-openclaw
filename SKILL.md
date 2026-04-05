@@ -144,6 +144,27 @@ python {SKILL_DIR}/scripts/memory.py prune --before 2026-01-01
 python {SKILL_DIR}/scripts/memory.py end-session
 ```
 
+To see a full overview of all 3 tiers (when aura-research is installed):
+```bash
+research memory show          # all tiers
+research memory show --tier fact  # just facts
+```
+
+## Research Knowledge Base (Optional)
+
+For research-focused workflows, install [Aura Research](https://github.com/Rtalabs-ai/aura-research):
+
+```bash
+pip install aura-research
+research init my-project
+research ingest raw/
+research build           # compile wiki/ → wiki.aura
+research search "topic"
+research memory show     # full overview of all 3 memory tiers
+```
+
+Aura Research turns raw documents into a structured wiki with persistent memory. As the agent, **you are the LLM** — you read docs, write wiki articles, and run CLI commands directly. No API key needed.
+
 ## Memory Tiers
 
 | Tier | What It Stores | Lifecycle |
